@@ -8,12 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TaskPilot.Application\TaskPilot.Application.csproj" />
     <ProjectReference Include="..\TaskPilot.Domain\TaskPilot.Domain.csproj" />
+    <ProjectReference Include="..\TaskPilot.Infrastructure\TaskPilot.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

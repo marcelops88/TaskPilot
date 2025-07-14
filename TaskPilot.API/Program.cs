@@ -1,4 +1,6 @@
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using TaskPilot.Infrastructure.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,11 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -30,4 +37,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.MapHealthChecks("/health");
+
 app.Run();

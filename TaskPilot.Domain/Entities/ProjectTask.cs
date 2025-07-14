@@ -9,5 +9,7 @@ namespace TaskPilot.Domain.Entities
         public string? Description { get; set; }
         public DateTime DueDate { get; set; }
         public ProjectTaskStatus Status { get; set; }
+        public List<TaskComment> Comments { get; set; } = new();
+
     }
 }
