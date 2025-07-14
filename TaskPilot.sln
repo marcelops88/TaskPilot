@@ -19,6 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskPilot.Domain", "TaskPil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskPilot.Infrastructure", "TaskPilot.Infrastructure\TaskPilot.Infrastructure.csproj", "{4B6284C7-6208-4B02-A809-C881FB4686B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{21651294-19EF-48AE-9440-E94D4DD94AE2}"
+	ProjectSection(SolutionItems) = preProject
+		Project.cs = Project.cs
+		ProjectTask.cs = ProjectTask.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +56,7 @@ Global
 		{B812E39E-DE0E-428C-B9A4-78B1F2226777} = {3051F9B6-551C-4E0A-8A66-2AD7B24CAC1A}
 		{E887D615-0E09-4751-B1A9-EB2A06A4DA4A} = {AF136F33-188D-41AA-AA6B-A60785F24E88}
 		{4B6284C7-6208-4B02-A809-C881FB4686B5} = {51D87CE8-3C55-411F-971A-3E4B3EAA8E08}
+		{21651294-19EF-48AE-9440-E94D4DD94AE2} = {AF136F33-188D-41AA-AA6B-A60785F24E88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B20495B9-69BA-4541-B8D6-9405F681A9BE}
