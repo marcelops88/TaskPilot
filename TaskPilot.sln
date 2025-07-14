@@ -30,6 +30,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Enums", "Enums", "{68571823
 		TaskStatus.cs = TaskStatus.cs
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dtos", "Dtos", "{E0D3016B-70B2-4FA0-B9B7-F32C6DE987E7}"
+	ProjectSection(SolutionItems) = preProject
+		CreateProjectDto.cs = CreateProjectDto.cs
+		CreateTaskDto.cs = CreateTaskDto.cs
+		ProjectDto.cs = ProjectDto.cs
+		TaskDto.cs = TaskDto.cs
+		UpdateProjectDto.cs = UpdateProjectDto.cs
+		UpdateTaskDto.cs = UpdateTaskDto.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +73,7 @@ Global
 		{4B6284C7-6208-4B02-A809-C881FB4686B5} = {51D87CE8-3C55-411F-971A-3E4B3EAA8E08}
 		{21651294-19EF-48AE-9440-E94D4DD94AE2} = {AF136F33-188D-41AA-AA6B-A60785F24E88}
 		{68571823-628A-4281-8296-D22FF05AF5A9} = {AF136F33-188D-41AA-AA6B-A60785F24E88}
+		{E0D3016B-70B2-4FA0-B9B7-F32C6DE987E7} = {AF136F33-188D-41AA-AA6B-A60785F24E88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B20495B9-69BA-4541-B8D6-9405F681A9BE}
