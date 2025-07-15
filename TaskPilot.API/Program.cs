@@ -1,6 +1,11 @@
-using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using TaskPilot.Application.UseCases.ProjectUseCases;
+using TaskPilot.Application.UseCases.ReportsUseCases;
+using TaskPilot.Application.UseCases.TaskUseCases;
+using TaskPilot.Domain.Interfaces;
 using TaskPilot.Infrastructure.Context;
+using TaskPilot.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +27,29 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddHealthChecks();
+
+// Repositórios
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskHistoryRepository, TaskHistoryRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ITaskCommentRepository, TaskCommentRepository>();
+
+// Use Cases de Task
+builder.Services.AddScoped<CreateTaskUseCase>();
+builder.Services.AddScoped<DeleteTaskUseCase>();
+builder.Services.AddScoped<UpdateTaskUseCase>();
+builder.Services.AddScoped<GetTasksByProjectUseCase>();
+
+// Use Cases de Project
+builder.Services.AddScoped<CreateProjectUseCase>();
+builder.Services.AddScoped<DeleteProjectUseCase>();
+builder.Services.AddScoped<UpdateProjectUseCase>();
+builder.Services.AddScoped<GetProjectByIdUseCase>();
+builder.Services.AddScoped<GetAllProjectsUseCase>();
+
+// Use Case de relatório de desempenho
+builder.Services.AddScoped<GetPerformanceReportUseCase>();
+
 
 var app = builder.Build();
 

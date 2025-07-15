@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskPilot.Application.Dtos;
-using TaskPilot.Domain.Enums;
+using TaskPilot.Application.UseCases.TaskUseCases;
 
 namespace TaskPilot.API.Controllers.v1
 {
@@ -8,17 +8,30 @@ namespace TaskPilot.API.Controllers.v1
     [Route("api/v1/projects/{projectId}/[controller]")]
     public class TasksController : ControllerBase
     {
+        private readonly GetTasksByProjectUseCase _getTasksUseCase;
+        private readonly CreateTaskUseCase _createTaskUseCase;
+        private readonly UpdateTaskUseCase _updateTaskUseCase;
+        private readonly DeleteTaskUseCase _deleteTaskUseCase;
+
+        public TasksController(
+            GetTasksByProjectUseCase getTasksUseCase,
+            CreateTaskUseCase createTaskUseCase,
+            UpdateTaskUseCase updateTaskUseCase,
+            DeleteTaskUseCase deleteTaskUseCase)
+        {
+            _getTasksUseCase = getTasksUseCase;
+            _createTaskUseCase = createTaskUseCase;
+            _updateTaskUseCase = updateTaskUseCase;
+            _deleteTaskUseCase = deleteTaskUseCase;
+        }
+
         /// <summary>
         /// Lista todas as tarefas de um projeto.
         /// </summary>
         [HttpGet]
-        public IActionResult GetTasks(int projectId)
+        public async Task<IActionResult> GetTasks(int projectId)
         {
-            var tasks = new List<TaskDto>
-            {
-                new TaskDto { Id = 1, Title = "Tarefa exemplo", Description = "Detalhes", DueDate = DateTime.Today.AddDays(7), Status = ProjectTaskStatus.Pendente }
-            };
-
+            var tasks = await _getTasksUseCase.ExecuteAsync(projectId);
             return Ok(tasks);
         }
 
@@ -26,27 +39,21 @@ namespace TaskPilot.API.Controllers.v1
         /// Cria uma nova tarefa em um projeto.
         /// </summary>
         [HttpPost]
-        public IActionResult CreateTask(int projectId, [FromBody] CreateTaskDto dto)
+        public async Task<IActionResult> CreateTask(int projectId, [FromBody] CreateTaskDto dto)
         {
-            var newTask = new TaskDto
-            {
-                Id = 1,
-                Title = dto.Title,
-                Description = dto.Description,
-                DueDate = dto.DueDate,
-                Status = ProjectTaskStatus.Pendente
-            };
-
-            return CreatedAtAction(nameof(GetTasks), new { projectId = projectId }, newTask);
+            var userId = new Random().Next(1, 100).ToString();
+            var newTask = await _createTaskUseCase.ExecuteAsync(projectId, dto, userId);
+            return CreatedAtAction(nameof(GetTasks), new { projectId }, newTask);
         }
 
         /// <summary>
         /// Atualiza uma tarefa existente.
         /// </summary>
         [HttpPut("{taskId}")]
-        public IActionResult UpdateTask(int projectId, int taskId, [FromBody] UpdateTaskDto dto)
+        public async Task<IActionResult> UpdateTask(int projectId, int taskId, [FromBody] UpdateTaskDto dto)
         {
-
+            var userId = new Random().Next(1, 100);
+            await _updateTaskUseCase.ExecuteAsync(projectId, taskId, dto, userId.ToString());
             return NoContent();
         }
 
@@ -54,9 +61,10 @@ namespace TaskPilot.API.Controllers.v1
         /// Remove uma tarefa de um projeto.
         /// </summary>
         [HttpDelete("{taskId}")]
-        public IActionResult DeleteTask(int projectId, int taskId)
+        public async Task<IActionResult> DeleteTask(int projectId, int taskId)
         {
-
+            var userId = new Random().Next(1, 100);
+            await _deleteTaskUseCase.ExecuteAsync(taskId, userId: userId);
             return NoContent();
         }
     }

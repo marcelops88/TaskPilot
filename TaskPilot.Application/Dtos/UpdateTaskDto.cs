@@ -1,6 +1,4 @@
-﻿using TaskPilot.Domain.Enums;
-
-namespace TaskPilot.Application.Dtos
+﻿namespace TaskPilot.Application.Dtos
 {
     public class UpdateTaskDto
     {

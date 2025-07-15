@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskPilot.Application.Dtos;
+using TaskPilot.Application.UseCases.ProjectUseCases;
 
 namespace TaskPilot.API.Controllers.v1
 {
@@ -7,17 +8,33 @@ namespace TaskPilot.API.Controllers.v1
     [Route("api/v1/[controller]")]
     public class ProjectsController : ControllerBase
     {
+        private readonly CreateProjectUseCase _createProjectUseCase;
+        private readonly UpdateProjectUseCase _updateProjectUseCase;
+        private readonly GetAllProjectsUseCase _getAllProjectsUseCase;
+        private readonly GetProjectByIdUseCase _getProjectByIdUseCase;
+        private readonly DeleteProjectUseCase _deleteProjectUseCase;
+
+        public ProjectsController(
+            CreateProjectUseCase createProjectUseCase,
+            UpdateProjectUseCase updateProjectUseCase,
+            GetAllProjectsUseCase getAllProjectsUseCase,
+            GetProjectByIdUseCase getProjectByIdUseCase,
+            DeleteProjectUseCase deleteProjectUseCase)
+        {
+            _createProjectUseCase = createProjectUseCase;
+            _updateProjectUseCase = updateProjectUseCase;
+            _getAllProjectsUseCase = getAllProjectsUseCase;
+            _getProjectByIdUseCase = getProjectByIdUseCase;
+            _deleteProjectUseCase = deleteProjectUseCase;
+        }
+
         /// <summary>
-        /// Lista todos os projetos do usuário.
+        /// Lista todos os projetos.
         /// </summary>
         [HttpGet]
-        public IActionResult GetProjects()
+        public async Task<IActionResult> GetProjects()
         {
-            var projects = new List<ProjectDto>
-            {
-                new ProjectDto { Id = 1, Name = "Projeto Exemplo", Description = "Descrição do projeto" }
-            };
-
+            var projects = await _getAllProjectsUseCase.ExecuteAsync();
             return Ok(projects);
         }
 
@@ -25,14 +42,9 @@ namespace TaskPilot.API.Controllers.v1
         /// Cria um novo projeto.
         /// </summary>
         [HttpPost]
-        public IActionResult CreateProject([FromBody] CreateProjectDto dto)
+        public async Task<IActionResult> CreateProject([FromBody] CreateProjectDto dto)
         {
-            var createdProject = new ProjectDto
-            {
-                Id = 1,
-                Name = dto.Name,
-                Description = dto.Description
-            };
+            var createdProject = await _createProjectUseCase.ExecuteAsync(dto);
 
             return CreatedAtAction(nameof(GetProjects), new { id = createdProject.Id }, createdProject);
         }
@@ -41,18 +53,20 @@ namespace TaskPilot.API.Controllers.v1
         /// Atualiza um projeto.
         /// </summary>
         [HttpPut("{projectId}")]
-        public IActionResult UpdateProject(int projectId, [FromBody] UpdateProjectDto dto)
+        public async Task<IActionResult> UpdateProject(int projectId, [FromBody] UpdateProjectDto dto)
         {
+            var updatedProject = await _updateProjectUseCase.ExecuteAsync(projectId, dto);
 
-            return NoContent();
+            return Ok(updatedProject);
         }
 
         /// <summary>
         /// Remove um projeto.
         /// </summary>
         [HttpDelete("{projectId}")]
-        public IActionResult DeleteProject(int projectId)
+        public async Task<IActionResult> DeleteProject(int projectId)
         {
+            await _deleteProjectUseCase.ExecuteAsync(projectId);
 
             return NoContent();
         }

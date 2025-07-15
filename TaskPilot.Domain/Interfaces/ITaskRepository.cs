@@ -10,6 +10,7 @@ namespace TaskPilot.Domain.Interfaces
         Task AddAsync(ProjectTask task);
         Task UpdateAsync(ProjectTask task);
         Task DeleteAsync(ProjectTask task);
+        Task<IEnumerable<ProjectTask>> GetPendingTasksByProjectIdAsync(int projectId);
     }
 
 }
