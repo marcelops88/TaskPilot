@@ -41,54 +41,49 @@ Durante o planejamento das próximas fases e melhorias, é fundamental alinhar a
 
 Na etapa final, e considerando o pouco tempo de desenvolvimento, pensei em algumas coisas que podem ser implementandas:
 
-### 📌 Arquitetura e Padrões
+- Logs e Tratamento adequado de exceção
+- Segregação de validações de dominio
+- Possibilidade de trabalhar com eventos e jobs (incluir algum cloud)
+- Ver a possbilidade de trabalhar com lifetime Transient (DI)
+- Usar automapper
+- Criar testes funcionais e de integração
+- usar ferramentar de observability
+- Algumas outras melhorias que podem ser feitas numa possivel evolução.
 
-- **Validações avançadas no domínio**:  
+  ## 🐳 Executando o projeto com Docker
 
-  Migrar algumas regras de negócio hoje concentradas no Use Case (por exemplo, restrições de prioridade ou limites) para o domínio (entidades ou value objects) garantiria maior consistência e centralização das regras.
+O projeto foi preparado para rodar em ambiente containerizado usando Docker. Assim, você garante a mesma configuração independente do sistema operacional ou ambiente local.
 
-### ☁️ Cloud & Escalabilidade
+---
 
-- **Preparar para deploy em nuvem (Cloud-Ready)**:  
-  Avaliar containerização (Docker) e provisionamento em Kubernetes para escalar por demanda. Além disso, pensar em usar serviços gerenciados (por exemplo, Azure SQL ou AWS RDS) para banco de dados, e fila (SQS/Azure Service Bus) para processamento assíncrono de eventos.
+### ✅ Pré-requisitos
 
-- **Monitoramento e observabilidade**:  
-  Incluir rastreabilidade via Application Insights, Elastic Stack ou Prometheus + Grafana. Isso ajudaria a detectar gargalos ou falhas em tempo real e melhorar a experiência de manutenção.
+- Docker instalado ([Instalar Docker](https://docs.docker.com/get-docker/))
+- Docker Compose instalado (já incluso no Docker Desktop)
 
-### 🔥 Logs & Controle de exceção
+---
 
-- **Implementar logging estruturado**:  
-  Adotar frameworks como Serilog ou NLog para logs estruturados, armazenando informações ricas (correlação de requests, payloads críticos, erros detalhados).
+### ⚙️ Passo a passo
 
-- **Padronizar tratamento de exceções**:  
-  Criar um middleware global de exception handling, retornando respostas amigáveis para o cliente e garantindo rastreabilidade nos logs (ex.: IDs de correlação).
+#### 1️⃣ Clone o repositório
 
-- **Alertas automáticos**:  
-  Configurar alertas baseados em logs críticos (ex.: falhas em criação de tarefas, erros de persistência) para acionar o time rapidamente.
+```bash
+git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/marcelops88/TaskPilot.git)
+cd seu-repositorio
 
-### 💡 Clean Code & Evolutividade
+#### 2️⃣ Execute o Docker Compose
+docker-compose up --build -d
 
-- **Camada de Application Services / Orquestração**:  
-  Alguns use cases podem ser orquestrados em "Application Services", facilitando a composição de fluxos mais complexos (por exemplo: criação de tarefa + envio de notificação).
+Isso irá criar e iniciar todos os containers definidos no docker-compose.yml (API, banco).
 
-- **Refinar injeção de dependência**:  
-  Atualmente usamos serviços Scoped; podemos avaliar casos onde Transient seja mais adequado.
+A API ficará disponível em: http://localhost:8080
 
-- **Automatização de mapeamentos**:  
-  Hoje os DTOs são mapeados manualmente. Adotar AutoMapper ou Source Generators pode reduzir repetição, melhorar legibilidade e diminuir erros.
+Swagger: [http://localhost:5000/swagger](http://localhost:8080/swagger/index.html)
 
-### 🔒 Segurança & Autorização
 
-- **Melhorar a estratégia de autenticação/autorização**:  
-  Atualmente temos regras básicas para o papel de gerente. Podemos evoluir para uma política baseada em claims mais granular, permitindo cenários mais ricos como permissões específicas em nível de projeto ou tarefa.
 
-### 🛠️ Testes & Qualidade
 
-- **Cobertura maior de testes unitários e integração**:  
-  Cobrir regras de negócio (por exemplo: limites de tarefas, bloqueio de exclusão de projeto com pendências). Também validar fluxo end-to-end, por exemplo com testes usando xUnit + FakeItEasy/Moq.
 
-- **Testes de carga (Load & Stress)**:  
-  Simular múltiplas criações e atualizações concorrentes, garantindo consistência e estabilidade do sistema.
 
 
 
