@@ -68,7 +68,7 @@ O projeto foi preparado para rodar em ambiente containerizado usando Docker. Ass
 #### 1️⃣ Clone o repositório
 
 ```bash
-git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/marcelops88/TaskPilot.git)
+git clone https://github.com/marcelops88/TaskPilot.git
 cd seu-repositorio
 
 #### 2️⃣ Execute o Docker Compose
@@ -78,7 +78,7 @@ Isso irá criar e iniciar todos os containers definidos no docker-compose.yml (A
 
 A API ficará disponível em: http://localhost:8080
 
-Swagger: [http://localhost:5000/swagger](http://localhost:8080/swagger/index.html)
+Swagger: http://localhost:8080/swagger/index.html
 
 
 
